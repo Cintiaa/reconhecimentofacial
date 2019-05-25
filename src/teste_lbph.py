@@ -24,7 +24,41 @@ for caminhoImagem in caminhos:
         cv2.waitKey(10)
         idprevisto, confianca = reconhecedorFacial.predict(imagemFaceNP)
         idatual = int(os.path.split(caminhoImagem)[-1].split(".")[1].replace("pessoa", ""))
-        print('{} foi classificado como se fosse {} - {}'.format(str(idatual), str(idprevisto), str(confianca)))
+        nome = ""
+        nomePrevisto = ""
+
+        if idatual == 1:
+            nome = 'Cintia'
+
+        if (idprevisto == 1):
+            nomePrevisto = 'Cintia'
+
+        if idatual == 2:
+            nome = 'Gabrielli'
+
+        if (idprevisto == 2):
+            nomePrevisto = 'Gabrielli'
+
+        if idatual == 3:
+            nome = 'Anne'
+
+        if (idprevisto == 3):
+            nomePrevisto = 'Anne'
+
+        if idatual == 4:
+            nome = 'Eliane'
+
+        if (idprevisto == 4):
+            nomePrevisto = 'Eliane'  
+
+        if idatual == 5:
+            nome = 'Debora'
+
+        if (idprevisto == 5):
+            nomePrevisto = 'Debora'
+
+        print('{} ({}) foi classificado como se fosse {} ({}) - {}'.format(str(idatual), str(nome), str(idprevisto),
+                                                                           str(nomePrevisto), str(confianca)))
 
         if idprevisto == idatual:
             totalAcertos += 1

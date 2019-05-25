@@ -5,15 +5,11 @@ from PIL import Image
 import random
 
 
-eigenface = cv2.face.EigenFaceRecognizer_create(num_components=int(random.randrange(50)), threshold=int(random.randrange(100)))
+eigenface = cv2.face.EigenFaceRecognizer_create()
 
 fisherface = cv2.face.FisherFaceRecognizer_create()
 
-lbphface = cv2.face.LBPHFaceRecognizer_create(threshold=int(random.randrange(10, 200)),
-                                                radius=int(random.randrange(1, 15)),
-                                                neighbors=int(random.randrange(1, 20)),
-                                                grid_x=int(random.randrange(1, 20)),
-                                                grid_y=int(random.randrange(1, 20)))
+lbphface = cv2.face.LBPHFaceRecognizer_create()
 
 def getImageComId():
     caminhos = [os.path.join('./db/imagefaces/treinamento', f) for f in os.listdir('./db/imagefaces/treinamento')]
