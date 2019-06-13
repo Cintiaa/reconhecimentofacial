@@ -2,23 +2,23 @@
 Detecção e Reconhecimento Facial
 
 
-TECNOLOGIAS UTILIZADAS
+Tecnologias Utilizadas
 
-OpenCV 4.0.1
+* OpenCV 4.0.1
+* Python 3.6.7
+* pip 9.0.1
 
-Python 3.6.7
 
-pip 9.0.1
 
-------------------***********------------------
-
-.gitignore
+No .gitignore está:
 
 .idea/
+
 src/db/
+
 src/classificador/
 
-------------------***********------------------
+
 Para armazenar os classificadores EigenFace, FisherFace e LBPHFaace gerados a partir do algoritmo de treinamento
 é preciso criar um diretório chamado "classificador" no projeto.
 
