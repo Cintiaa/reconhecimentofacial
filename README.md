@@ -15,22 +15,24 @@ pip 9.0.1
 .gitignore
 
 .idea/
-src/cascades/data
 src/db/
 src/classificador/
 
 ------------------***********------------------
+Para armazenar os classificadores EigenFace, FisherFace e LBPHFaace gerados a partir do algoritmo de treinamento
+é preciso criar um diretório chamado "classificador" no projeto.
 
-Necessário a criação de um diretório chamado classificador para armazenar os classificadores
-EigenFace, FisherFace e LBPHFace gerados para o treinamento.
+Para realizar o teste com as imagens é necessário a criação de um diretório chamado db. O 
+treinamento pode ser realizado utilizando a base de dados YaleFace disponível em 
+http://vision.ucsd.edu/content/yale-face-database ou criar uma base de dados, separando algumas imagens para o 
+treinamento e teste. Será preciso alterar no nome das pastas no projeto caso seja utilizado o db Yale.
 
-Necessário a criação de uma pasta chamada db para armazenar a base de imagens
 
-
-captura - Realiza a captura de imagens para a criação de uma base de dados
+A captura das imagens para treinamento é feita através do algoritmo "captura".
 
 treinamento - Nessa classe é realizado o treinamento com a base de dados criada e geração de classificadores, 
 utilizando os algoritmos Eingenface, FisherFace e LBPHFace com base nos haarcascades disponibilizados pelo OpenCV.
 
 
 Com base nos classificadores gerados, os testes são realizados nas classes teste_eigenface, teste_fisherface, teste_lbph
+e teste_camera_lbph
