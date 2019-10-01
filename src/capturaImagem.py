@@ -7,9 +7,10 @@ classificador = cv2.CascadeClassifier('./cascades/data/haarcascade_frontalface_a
 
 camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 amostra = 1
-numeroAmostras = 10
-id = input('Digite seu identificador: ')
+numeroAmostras = 1
 largura, altura = 220, 220
+
+print('Atenção se posicione em frente a câmera e em seguida pressione a tecla Q, para que possamos capturar uma imagem de sua face ')
 print('Capturando as faces...')
 
 while (True):
@@ -21,17 +22,10 @@ while (True):
 
     for (x, y, l, a) in facesDetectadas:
         cv2.rectangle(imagem, (x, y), (x + l, y + a), (0, 0, 255), 2)
-        #regiao = imagem[y: y + a, x: x + l]
-        #regiaoCinzaOlho = cv2.cvtColor(regiao, cv2.COLOR_BGR2GRAY)
-        #olhosDetectados = classificadorOlho.detectMultiScale(regiaoCinzaOlho)
-
-        #for(ox, oy, ol, oa) in olhosDetectados:
-            #cv2.rectangle(regiao, (ox, oy), (ox + ol, oy + oa), (0, 255, 0), 2)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            #if numpy.average(imagemCinza) > 110:
             imagemFace = cv2.resize(imagemCinza[y:y + a, x:x + l], (largura, altura))
-            cv2.imwrite('../../resources/imagefaces/treinamento/pessoa.' + str(id) + '.' + str(amostra) +'.jpg', imagemFace)
+            cv2.imwrite('../../resources/imagefaces/treinamento/pessoa.' + str(amostra) +'.jpg', imagemFace)
             print('[Foto ' + str(amostra) + ' capturada com sucesso]')
             amostra += 1
 

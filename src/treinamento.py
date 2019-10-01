@@ -12,7 +12,7 @@ fisherface = cv2.face.FisherFaceRecognizer_create()
 lbphface = cv2.face.LBPHFaceRecognizer_create()
 
 def getImageComId():
-    caminhos = [os.path.join('./db/imagefaces/treinamento', f) for f in os.listdir('./db/imagefaces/treinamento')]
+    caminhos = [os.path.join('../../resources/imagefaces/treinamento', f) for f in os.listdir('../../resources/imagefaces/treinamento')]
     faces = []
     ids = []
     for caminhoImagem in caminhos:

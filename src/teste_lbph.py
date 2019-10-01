@@ -12,7 +12,7 @@ totalAcertos = 0
 percentalAcertos = 0.0
 totalConfianca = 0.0
 
-caminhos = [os.path.join('./db/imagefaces/teste', f) for f in os.listdir('./db/imagefaces/teste')]
+caminhos = [os.path.join('../../resources/imagefaces/teste', f) for f in os.listdir('../../resources/imagefaces/teste')]
 for caminhoImagem in caminhos:
     imagemFace = Image.open(caminhoImagem).convert('L')
     imagemFaceNP = np.array(imagemFace, 'uint8')
