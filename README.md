@@ -1,38 +1,30 @@
-# reconhecimentofacial
-Detecção e Reconhecimento Facial
 
+Detecção e Reconhecimento Facial utilizando Python e OpenCV
 
 Tecnologias Utilizadas
-
-* OpenCV 4.0.1
-* Python 3.6.7
-* pip 9.0.1
-
+* OpenCV 4.1.1
+* Python 3.7.4
+* pip 19.2.3
 
 
 No .gitignore está:
-
 .idea/
-
 src/db/
-
 src/classificador/
 
 
-Para armazenar os classificadores EigenFace, FisherFace e LBPHFaace gerados a partir do algoritmo de treinamento
-é preciso criar um diretório chamado "classificador" no projeto.
 
-Para realizar o teste com as imagens é necessário a criação de um diretório chamado db. O 
-treinamento pode ser realizado utilizando a base de dados YaleFace disponível em 
-http://vision.ucsd.edu/content/yale-face-database ou criar uma base de dados, separando algumas imagens para o 
-treinamento e teste. Será preciso alterar no nome das pastas no projeto caso seja utilizado o db Yale.
+ARMAZENAMENTO DE IMAGENS
+As imagens para a verificação e treinamento estão armazenadas no diretório resources/verificao e resources/uploads respectivamente.
+Para tal é necessário realizar a criação de ambos diretórios.
 
+CLASSIFICADOR
+Os classificadores criados à partir do arquivo de treinamento estão armazenadas no diretório classificador que está no .gitignore do projeto.
+Criar diretório chamado "classificador" para armazenar os classificadores.
 
-A captura das imagens para treinamento é feita através do algoritmo "captura".
+INFORMAÇÕES SOBRE O SISTEMA
+O arquivo "captura.py" realiza a captura de imagens faciais através da WebCam
+O arquivo "treinamento.py" realiza o treinamento com as imagens armazenadas no diretório resources/uploads e gera os classificadores que realizarão o reconhecimento das imagens capturadas
+No arquivo "reconhecimento.py" é executado o reconhecimento da imagem capturada no arquivo captura.py utilizando os classificadores gerados à partir do treinamento e também a atribuição
+de presença ao aluno, caso ele seja reconhecido.
 
-treinamento - Nessa classe é realizado o treinamento com a base de dados criada e geração de classificadores, 
-utilizando os algoritmos Eingenface, FisherFace e LBPHFace com base nos haarcascades disponibilizados pelo OpenCV.
-
-
-Com base nos classificadores gerados, os testes são realizados nas classes teste_eigenface, teste_fisherface, teste_lbph
-e teste_camera_lbph
