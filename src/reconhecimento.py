@@ -10,6 +10,7 @@ import shutil
 conn = pyodbc.connect('Driver={SQL Server}; Server=localhost; Database=reconhecimentoFacial; UID=sa; PWD=teste123; Trusted_Connection=yes; ')
 
 cursor = conn.cursor()
+
 cursor.execute('SELECT DISTINCT t.IdTurma, t.Sigla, a.IdAluno, a.RA, a.Nome as Aluno, i.name '
                    'FROM Alunos a JOIN ImagemFaces i on a.IdAluno = i.IdAluno '
                    'JOIN TurmaAlunos ta on a.IdAluno = ta.IdAluno '
@@ -19,16 +20,11 @@ cursor.execute('SELECT DISTINCT t.IdTurma, t.Sigla, a.IdAluno, a.RA, a.Nome as A
 
 
 detectorFacial = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
-reconhecedorFacial = cv2.face.FisherFaceRecognizer_create()
-reconhecedorFacial.read('./classificador/FisherFace.yml')
 
 #RECONHECIMENTO EIGENFACE
-#reconhecedorFacial = cv2.face.EigenFaceRecognizer_create()
-#reconhecedorFacial.read('./classificador/EigenFace.yml')
+reconhecedorFacial = cv2.face.EigenFaceRecognizer_create()
+reconhecedorFacial.read('./classificador/EigenFace.yml')
 
-#RECONHECIMENTO LBPHFACE
-#reconhecedorFacial = cv2.face.LBPHFaceRecognizer_create()
-#reconhecedorFacial.read('./classificador/LBPHFace.yml')
 
 
 totalAcertos = 0
@@ -51,7 +47,7 @@ for c in caminhos:
         cv2.waitKey(10)
         idprevisto, confianca = reconhecedorFacial.predict(imagemFaceNP)
 
-        idatual = int(os.path.split(c)[-1].split("-")[1].replace("file", ""))
+        idatual = int(os.path.split(c)[-1].split("-")[1].replace("imagem", ""))
 
         file = str(os.path.split(c)[-1])
 
@@ -61,14 +57,19 @@ for c in caminhos:
         diretorio = "C:\\Users\\cintia-nunes\\Desktop\\Projeto\\resources\\verificacao\\" + file
         newDiretorio = "C:\\Users\\cintia-nunes\\Desktop\\Projeto\\resources\\uploads\\"
 
+        print(idatual, idprevisto)
         foto = cv2.imread(file)
-
         if idatual != idprevisto:
             for row in cursor:
                 if idprevisto == row.IdAluno:
                     nome = row.Aluno
                     print("Aluno reconhecido como: {}, confirma?".format(str(nome)))
                     s = input('Insira sim ou não: ')
+                    if s != 'sim':
+                        print('Por favor, retire uma nova foto')
+                        # REMOVE A IMAGEM NÃO RECONHECIDA DO DIRETORIO
+                        os.remove(diretorio)
+                        break
                     if s == 'sim':
                         id = row.IdAluno
                         turma = row.IdTurma
@@ -80,6 +81,7 @@ for c in caminhos:
                         cursor.execute('INSERT INTO Presencas(QtdPresenca, DtAula, IdAluno, IdTurma, IsDeleted, createdAt, updateDAt) VALUES (?, ?, ?, ?, ?, ?, ?)',
                             (2, datetime.datetime.now(), id, turma, 0, datetime.datetime.now(), datetime.datetime.now()))
                         cursor.commit()
+                        print('Presença atribuída com sucesso!!')
 
                         #CONVERTE A IMAGEM PARA BINARIO
                         f = open(diretorio, 'rb')
@@ -98,11 +100,6 @@ for c in caminhos:
                         #REMOVE A IMAGEM RECONHECIDA DO DIRETORIO
                         os.remove(diretorio)
                         break
-                    else:
-                        print('Por favor, retire uma nova foto')
-                        # REMOVE A IMAGEM NÃO RECONHECIDA DO DIRETORIO
-                        os.remove(diretorio)
 
-
-
-            conn.close()
+            cursor.close()
+            #del cursor

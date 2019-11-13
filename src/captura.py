@@ -17,8 +17,10 @@ da = datetime.strftime(dt,"%d%m%m%H%M%S")
 print('Por favor, se posicione em frente a câmera e aperte a letra Q')
 while(True):
     conectado, imagem = camera.read()
+
     imagemCinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
-    faceDetectada = classificador.detectMultiScale(imagemCinza, scaleFactor=1.3, minSize=(100, 100))
+
+    faceDetectada = classificador.detectMultiScale(imagemCinza, scaleFactor=1.2, minSize=(150, 150))
 
 
     for(x, y, l, a) in faceDetectada:
