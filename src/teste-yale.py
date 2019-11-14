@@ -5,7 +5,7 @@ from PIL import Image
 
 detectorFace = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
 reconhecedor = cv2.face.EigenFaceRecognizer_create()
-reconhecedor.read('./classificador/EigenFace.yml')
+reconhecedor.read('./classificador/eigenfaceYale.yml')
 #reconhecedor = cv2.face.FisherFaceRecognizer_create()
 #reconhecedor.read('classificadorFisherYale.yml')
 #reconhecedor = cv2.face.LBPHFaceRecognizer_create()

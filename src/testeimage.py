@@ -5,7 +5,7 @@ from PIL import Image
 
 detectorFace = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
 reconhecedorFace = cv2.face.EigenFaceRecognizer_create()
-reconhecedorFace.read('./classificador/EigenFaceYale.yml')
+reconhecedorFace.read('./classificador/EigenFace1.yml')
 
 largura, altura = 200, 200
 
@@ -13,7 +13,9 @@ totalAcertos = 0
 percentualAcertos = 0.0
 totalConfianca = 0.0
 
-caminhos = [os.path.join('../../resources/essex/teste', f) for f in os.listdir('../../resources/essex/teste')]
+#, minNeighbors=5, scaleFactor=1.3, minSize=(60, 60), maxSize=(400, 400)
+
+caminhos = [os.path.join('../../resources/teste', f) for f in os.listdir('../../resources/teste')]
 for caminhoImagem in caminhos:
     imagemFace = Image.open(caminhoImagem).convert('L')
     imagemFaceNP = np.array(imagemFace, 'uint8')
@@ -26,14 +28,14 @@ for caminhoImagem in caminhos:
         cv2.waitKey(100)
         idprevisto, confianca = reconhecedorFace.predict(imagemFace)
 
-        idatual = int(os.path.split(caminhoImagem)[-1].split(".")[0].replace("pessoa", ""))
+        idatual = int(os.path.split(caminhoImagem)[-1].split("-")[1].replace("imagem", ""))
         print(str(idatual) + " foi classificada como se fosse " + str(idprevisto) + " - " + str(confianca))
 
         if idprevisto == idatual:
             totalAcertos += 1
             totalConfianca += confianca
 
-percentualAcertos = (totalAcertos / 10) * 100
+percentualAcertos = (totalAcertos / 7) * 100
 totalConfianca = totalConfianca / totalAcertos
 
 print("Percentual de acerto: " + str(percentualAcertos) + "%")

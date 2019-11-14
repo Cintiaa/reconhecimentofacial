@@ -1,18 +1,22 @@
 import cv2
 import os
 import numpy as np
-from PIL import Image
 import random
 
+#80, 17000
 
+a = int(random.randrange(14, 80))
+b = int(random.randrange(5000, 17000))
 detectorFacial = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
-eigenface = cv2.face.EigenFaceRecognizer_create()
+eigenface = cv2.face.EigenFaceRecognizer_create(80, 17000)
+print(a,',', b)
+
 fisherface = cv2.face.FisherFaceRecognizer_create()
-lbphface = cv2.face.LBPHFaceRecognizer_create(2, 2, 5, 5, 50)
+lbphface = cv2.face.LBPHFaceRecognizer_create()
 largura, altura = 200, 200
 
 def getImageId():
-    caminhos = [os.path.join('../../resources/essex/treinamento', f) for f in os.listdir('../../resources/essex/treinamento')]
+    caminhos = [os.path.join('../../resources/uploads', f) for f in os.listdir('../../resources/uploads')]
     faces = []
     ids = []
     for c in caminhos:
@@ -22,7 +26,7 @@ def getImageId():
         for (x, y, l, a) in faceDetectada:
             imagemFace = cv2.resize(imagemFace[y:y + a, x:x + l], (largura, altura))
 
-            id = int(os.path.split(c)[-1].split(".")[1])
+            id = int(os.path.split(c)[-1].split("-")[1])
 
             ids.append(id)
             faces.append(imagemFace)
@@ -32,20 +36,17 @@ def getImageId():
 
 ids, faces = getImageId()
 
+
 print('Realizando o treinamento do classificador!!')
 
 #criando classificador EigenFace
 eigenface.train(faces, ids)
-eigenface.write('./classificador/EigenFaceYale.yml')
+eigenface.write('./classificador/EigenFace1.yml')
 
-
-#criando classificador FicherFace
-fisherface.train(faces, ids)
-fisherface.write('./classificador/FisherFaceYale.yml')
-
-
-#criando classificador LBPHFace
-lbphface.train(faces, ids)
-lbphface.write('./classificador/LBPHFaceYale.yml')
 
 print('Treinamento realizado')
+
+
+
+
+

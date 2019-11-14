@@ -33,7 +33,7 @@ for caminhoImagem in caminhos:
             totalAcertos += 1
             totalConfianca += confianca
 
-percentualAcertos = (totalAcertos / 5) * 100
+percentualAcertos = (totalAcertos / 4) * 100
 totalConfianca = totalConfianca / totalAcertos
 
 print("Percentual de acerto: " + str(percentualAcertos) + "%")
