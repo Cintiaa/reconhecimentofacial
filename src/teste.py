@@ -13,7 +13,7 @@ totalAcertos = 0
 percentualAcertos = 0.0
 totalConfianca = 0.0
 
-caminhos = [os.path.join('../../resources/teste', f) for f in os.listdir('../../resources/teste')]
+caminhos = [os.path.join('../../resources/verificacao', f) for f in os.listdir('../../resources/verificacao')]
 for caminhoImagem in caminhos:
     imagemFace = Image.open(caminhoImagem).convert('L')
     imagemFaceNP = np.array(imagemFace, 'uint8')

@@ -17,59 +17,47 @@ cursor.execute('SELECT DISTINCT t.IdTurma, t.Sigla, a.IdAluno, a.RA, a.Nome as A
                    'JOIN Turmas t on t.IdTurma = ta.IdTurma '
                    'WHERE t.IsDeleted = 0 AND a.IsDeleted = 0 AND i.IsDeleted = 0')
 
+detectorFace = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
+reconhecedorFace = cv2.face.EigenFaceRecognizer_create()
+reconhecedorFace.read('./classificador/EigenFace.yml')
 
-
-detectorFacial = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
-
-#RECONHECIMENTO EIGENFACE
-reconhecedorFacial = cv2.face.EigenFaceRecognizer_create()
-reconhecedorFacial.read('./classificador/EigenFace.yml')
-
-
+largura, altura = 200, 200
 
 totalAcertos = 0
 percentualAcertos = 0.0
 totalConfianca = 0.0
-largura, altura = 200, 200
 
 caminhos = [os.path.join('../../resources/verificacao', f) for f in os.listdir('../../resources/verificacao')]
-for c in caminhos:
-    imagemFace = Image.open(c).convert('L')
+for caminhoImagem in caminhos:
+    imagemFace = Image.open(caminhoImagem).convert('L')
     imagemFaceNP = np.array(imagemFace, 'uint8')
-    facesDetectadas = detectorFacial.detectMultiScale(imagemFaceNP)
-
-
+    facesDetectadas = detectorFace.detectMultiScale(imagemFaceNP)
     for (x, y, l, a) in facesDetectadas:
-        cv2.rectangle(imagemFaceNP, (x, y), (x + l, y + a), (0, 0, 255), 2)
+       # cv2.rectangle(imagemFaceNP, (x, y), (x + l, y + a), (0, 0, 255), 2)
         imagemFace = cv2.resize(imagemFaceNP[y:y + a, x:x + l], (largura, altura))
         f = cv2.imshow('Faces', imagemFaceNP)
 
-        cv2.waitKey(10)
-        idprevisto, confianca = reconhecedorFacial.predict(imagemFaceNP)
+        cv2.waitKey(100)
+        idprevisto, confianca = reconhecedorFace.predict(imagemFace)
 
-        idatual = int(os.path.split(c)[-1].split("-")[1].replace("imagem", ""))
+        idatual = int(os.path.split(caminhoImagem)[-1].split("-")[1].replace("imagem", ""))
 
-        file = str(os.path.split(c)[-1])
+        file = str(os.path.split(caminhoImagem)[-1])
 
-        file2 = str(os.path.split(c)[-1].split("-")[-1])
+        file2 = str(os.path.split(caminhoImagem)[-1].split("-")[-1])
 
 
-        diretorio = "C:\\Users\\cintia-nunes\\Desktop\\Projeto\\resources\\verificacao\\" + file
-        newDiretorio = "C:\\Users\\cintia-nunes\\Desktop\\Projeto\\resources\\uploads\\"
+        diretorio = "C:\\Users\\NUNES\\Desktop\\Nova Pasta\\resources\\verificacao\\" + file
+        newDiretorio = "C:\\Users\\NUNES\\Desktop\\Nova Pasta\\resources\\uploads\\"
 
         print(idatual, idprevisto)
         foto = cv2.imread(file)
-        if idatual != idprevisto:
+        if idatual != idprevisto or idatual == idprevisto:
             for row in cursor:
                 if idprevisto == row.IdAluno:
                     nome = row.Aluno
                     print("Aluno reconhecido como: {}, confirma?".format(str(nome)))
                     s = input('Insira sim ou não: ')
-                    if s != 'sim':
-                        print('Por favor, retire uma nova foto')
-                        # REMOVE A IMAGEM NÃO RECONHECIDA DO DIRETORIO
-                        os.remove(diretorio)
-                        break
                     if s == 'sim':
                         id = row.IdAluno
                         turma = row.IdTurma
@@ -100,6 +88,12 @@ for c in caminhos:
                         #REMOVE A IMAGEM RECONHECIDA DO DIRETORIO
                         os.remove(diretorio)
                         break
+
+            if s != 'sim':
+                print('Por favor, retire uma nova foto')
+                # REMOVE A IMAGEM NÃO RECONHECIDA DO DIRETORIO
+                os.remove(diretorio)
+                break
 
             cursor.close()
             #del cursor

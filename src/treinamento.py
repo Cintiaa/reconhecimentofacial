@@ -5,7 +5,7 @@ import numpy as np
 #, minNeighbors=5, scaleFactor=1.3, minSize=(60, 60), maxSize=(400, 400)
 
 detectorFacial = cv2.CascadeClassifier('./cascades/data/haarcascade-frontalface-default.xml')
-eigenface = cv2.face.EigenFaceRecognizer_create( 80, 17000)
+eigenface = cv2.face.EigenFaceRecognizer_create()
 fisherface = cv2.face.FisherFaceRecognizer_create()
 lbphface = cv2.face.LBPHFaceRecognizer_create()
 largura, altura = 200, 200
